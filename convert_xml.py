@@ -48,12 +48,17 @@ def convert_annotation(xml_path):
             continue
         out_file.write(str(cls_id) + " " + " ".join([str(a) for a in bb]) + '\n')
 
-wd = getcwd()
+        
+def convert_all_to_xml_in_folder(folder_path = "") : 
 
-train_txt = open("train.txt","w")
-for image_xml in os.listdir(wd):
-    if os.path.isfile(image_xml) :
-        if image_xml.find(".xml") >= 0 :
-            convert_annotation(image_xml)
-            train_txt.write("{}/{}\n".format(wd,image_xml.replace(".xml",".jpg")))
-train_txt.close()
+    train_txt = open(folder_path+"/train.txt","w")
+    for image_xml in os.listdir(folder_path):
+        if os.path.isfile(image_xml) :
+            if image_xml.find(".xml") >= 0 :
+                convert_annotation(image_xml)
+                train_txt.write("{}/{}\n".format(folder_path,image_xml.replace(".xml",".jpg")))
+    train_txt.close()
+    
+if __name__ == "__main__":
+    wd = getcwd()
+    convert_all_to_xml_in_folder(folder_path = wd)
