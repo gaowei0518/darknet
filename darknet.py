@@ -30,7 +30,7 @@ Windows Python 2.7 version: https://github.com/AlexeyAB/darknet/blob/fc496d52bf2
 from ctypes import *
 import math
 import random
-import os
+import os,sys
 
 def sample(probs):
     s = sum(probs)
@@ -313,7 +313,7 @@ netMain = None
 metaMain = None
 altNames = None
 
-def performDetect(imagePath="data/dog.jpg", thresh= 0.25, configPath = "./cfg/yolov4.cfg", weightPath = "yolov4.weights", metaPath= "./cfg/coco.data", showImage= True, makeImageOnly = False, initOnly= False):
+def performDetect(imagePath="data/window/989706618.jpg", thresh= 0.99, configPath = "./cfg/yolov4_window2.cfg", weightPath = "window_backup/yolov4_window2_final.weights", metaPath= "./data/window.data", showImage= True, makeImageOnly = True, initOnly= False):
     """
     Convenience function to handle the detection and returns of objects.
 
@@ -447,6 +447,8 @@ def performDetect(imagePath="data/dog.jpg", thresh= 0.25, configPath = "./cfg/yo
             if not makeImageOnly:
                 io.imshow(image)
                 io.show()
+            else :
+                io.imsave("test.jpg",image)
             detections = {
                 "detections": detections,
                 "image": image,
@@ -456,7 +458,7 @@ def performDetect(imagePath="data/dog.jpg", thresh= 0.25, configPath = "./cfg/yo
             print("Unable to show image: "+str(e))
     return detections
 
-def performBatchDetect(thresh= 0.25, configPath = "./cfg/yolov4.cfg", weightPath = "yolov4.weights", metaPath= "./cfg/coco.data", hier_thresh=.5, nms=.45, batch_size=3):
+def performBatchDetect(thresh= 0.15, configPath = "./cfg/yolov4_window1.cfg", weightPath = "window_backup/yolov4_window1_last.weights", metaPath= "./cfg/window.data", hier_thresh=.5, nms=.45, batch_size=3):
     import cv2
     import numpy as np
     # NB! Image sizes should be the same
@@ -522,6 +524,7 @@ def performBatchDetect(thresh= 0.25, configPath = "./cfg/yolov4.cfg", weightPath
     return batch_boxes, batch_scores, batch_classes    
 
 if __name__ == "__main__":
-    print(performDetect())
+    image_path = sys.argv[1]
+    print(performDetect(imagePath=image_path))
     #Uncomment the following line to see batch inference working 
     #print(performBatchDetect())
