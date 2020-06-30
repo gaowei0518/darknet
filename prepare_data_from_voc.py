@@ -1,6 +1,6 @@
 import os
 import shutil
-def prepare_data_from_voc(data_root = "" , output_folder="",model_name) :
+def prepare_data_from_voc(list_class , model_name , data_root = "" , output_folder="") :
     
     new_data_folder = output_folder+"/"+model_name
     if not(os.path.isdir(new_data_folder)) :
@@ -17,7 +17,8 @@ def prepare_data_from_voc(data_root = "" , output_folder="",model_name) :
     from convert_xml import convert_all_to_xml_in_folder
     
     convert_all_to_xml_in_folder(folder_path = new_data_folder)
-    
+    prepare_obj_names(output_folder , list_class , model_name)
+    prepare_obj_data(output_folder , list_class , model_name)
     
 def prepare_obj_names(output_folder , list_class , model_name) : 
     
