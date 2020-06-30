@@ -43,3 +43,8 @@ def prepare_obj_data(output_folder , list_class , model_name) :
     txt.write("backup = {}\n".format(backup))
     txt.close()
     
+if __name__ == "__main__":
+    model_name = sys.argv[1]
+    data_root = sys.argv[2]
+    list_class = sys.argv[3]
+    prepare_data_from_voc(list_class , model_name , data_root = data_root , output_folder="data")
