@@ -313,7 +313,7 @@ netMain = None
 metaMain = None
 altNames = None
 
-def performDetect(imagePath="data/window/989706618.jpg", thresh= 0.99, configPath = "./cfg/yolov4_window2.cfg", weightPath = "window_backup/yolov4_window2_final.weights", metaPath= "./data/window.data", showImage= True, makeImageOnly = True, initOnly= False):
+def performDetect(imagePath="data/window/989706618.jpg", thresh= 0.99, configPath = "./cfg/yolov4_window2.cfg", weightPath = "window_backup/yolov4_window2_final.weights", metaPath= "./data/window.data", showImage= True, makeImageOnly = True, initOnly= False,output_image = "test.jpg"):
     """
     Convenience function to handle the detection and returns of objects.
 
@@ -448,7 +448,7 @@ def performDetect(imagePath="data/window/989706618.jpg", thresh= 0.99, configPat
                 io.imshow(image)
                 io.show()
             else :
-                io.imsave("test.jpg",image)
+                io.imsave(output_image,image)
             detections = {
                 "detections": detections,
                 "image": image,
@@ -525,6 +525,11 @@ def performBatchDetect(thresh= 0.15, configPath = "./cfg/yolov4_window1.cfg", we
 
 if __name__ == "__main__":
     image_path = sys.argv[1]
-    print(performDetect(imagePath=image_path))
+    data_file =  sys.argv[2]  #data/plaque_immat.data 
+    config_ifle = sys.argv[3] #cfg/yolov4_plaque.cfg  
+    model_weight = sys.argv[4] # window_backup/yolov4_plaque_final.weights
+    image_output = sys.argv[5]
+
+    print(performDetect(imagePath=image_path , configPath = config_file, weightPath = model_weight, metaPath= data_file,output_image = image_output))
     #Uncomment the following line to see batch inference working 
     #print(performBatchDetect())
