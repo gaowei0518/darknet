@@ -51,5 +51,5 @@ if __name__ == "__main__":
     import sys
     model_name = sys.argv[1]
     data_root = sys.argv[2]
-    list_class = sys.argv[3]
+    list_class = sys.argv[3].split(",")
     prepare_data_from_voc(list_class , model_name , data_root = data_root , output_folder="data")
