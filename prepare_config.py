@@ -6,7 +6,8 @@ def prepare_config_file(model_name , output_file_path = "" ,batch_size = 16 , su
     ### definir les valeur du parmetre : 
     if output_file_path == "" :
         output_file_path = os.path.join(os.environ["YOLO_DARKNET"],"cfg",model_name + ".cfg")
-    
+    if max_iter == 0 :
+        max_iter = max(nb_image,2000 * nb_class)
     90max_iter = int(0.9*max_iter)
     80max_iter = int(0.8*max_iter)
     if subdivision == 0 :
