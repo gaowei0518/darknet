@@ -20,6 +20,9 @@ def prepare_data_from_voc(list_class , model_name , data_root = "" , output_fold
     prepare_obj_names(output_folder , list_class , model_name)
     prepare_obj_data(output_folder , list_class , model_name)
     
+    from prepare_config import prepare_config_file
+    prepare_config_file(model_name , output_file_path = "" ,batch_size = 16 , subdivision= 0 , nb_class = 1 , max_iter = 0 , nb_image = 0 , mosaic = 1 ,verbose = False)
+    
 def prepare_obj_names(output_folder , list_class , model_name) : 
     
     txt = open(output_folder + "/" + model_name +".names" , "w")
