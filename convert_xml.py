@@ -54,7 +54,7 @@ def convert_all_to_xml_in_folder(classes,folder_path = "") :
     train_txt = open(folder_path+"/train.txt","w")
     nb_file = 0
     for image_xml in os.listdir(folder_path):
-        if os.path.isfile(image_xml) :
+        if os.path.isfile(folder_path + "/" + image_xml) :
             if image_xml.find(".xml") >= 0 :
                 convert_annotation(image_xml,classes)
                 nb_file += 1
