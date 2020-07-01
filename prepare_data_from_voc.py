@@ -48,6 +48,7 @@ def prepare_obj_data(output_folder , list_class , model_name) :
     txt.close()
     
 if __name__ == "__main__":
+    import sys
     model_name = sys.argv[1]
     data_root = sys.argv[2]
     list_class = sys.argv[3]
