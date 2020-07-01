@@ -13,7 +13,7 @@ def prepare_config_file(model_name , output_file_path = "" ,batch_size = 16 , su
     if subdivision == 0 :
         subdivision = max(1,int(batch_size//4))
         
-    mosaic = bool(mosaic)
+    mosaic = int(mosaic)
     ### regle defini par la reseau , ne le change pas
     nb_filter = (5 + nb_class) *3
     
