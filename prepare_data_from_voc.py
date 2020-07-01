@@ -7,11 +7,11 @@ def prepare_data_from_voc(list_class , model_name , data_root = "" , output_fold
         os.makedirs(new_data_folder)
         
     for image in os.listdir(data_root + "/JPEGImages") :
-        if os.path.isfile(image) and image.find(".jpg") >= 0 :
+        if os.path.isfile(data_root + "/JPEGImages/" + image) and image.find(".jpg") >= 0 :
             shutil.copyfile(data_root + "/JPEGImages/" + image ,new_data_folder+"/" + image)
             
     for anno in os.listdir(data_root + "/Annotations") :
-        if os.path.isfile(anno) and image.find(".xml") >= 0 :
+        if os.path.isfile(data_root + "/Annotations/" + anno) and anno.find(".xml") >= 0 :
             shutil.copyfile(data_root + "/Annotations/" + anno ,new_data_folder+"/" + anno)
             
     from convert_xml import convert_all_to_xml_in_folder
