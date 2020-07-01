@@ -22,7 +22,7 @@ def convert(size, box):
     h = h*dh
     return (x,y,w,h)
 
-def convert_annotation(xml_path):
+def convert_annotation(xml_path,classes):
     in_file = open(xml_path)
     out_file = open(xml_path.replace(".xml",".txt"), 'w')
     tree=ET.parse(in_file)
@@ -49,16 +49,19 @@ def convert_annotation(xml_path):
         out_file.write(str(cls_id) + " " + " ".join([str(a) for a in bb]) + '\n')
 
         
-def convert_all_to_xml_in_folder(folder_path = "") : 
+def convert_all_to_xml_in_folder(classes,folder_path = "") : 
 
     train_txt = open(folder_path+"/train.txt","w")
+    nb_file = 0
     for image_xml in os.listdir(folder_path):
         if os.path.isfile(image_xml) :
             if image_xml.find(".xml") >= 0 :
-                convert_annotation(image_xml)
+                convert_annotation(image_xml,classes)
+                nb_file += 1
                 train_txt.write("{}/{}\n".format(folder_path,image_xml.replace(".xml",".jpg")))
     train_txt.close()
+    return nb_file
     
 if __name__ == "__main__":
     wd = getcwd()
-    convert_all_to_xml_in_folder(folder_path = wd)
+    convert_all_to_xml_in_folder(classes,folder_path = wd)
