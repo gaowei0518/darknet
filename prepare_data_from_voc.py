@@ -16,12 +16,13 @@ def prepare_data_from_voc(list_class , model_name , data_root = "" , output_fold
             
     from convert_xml import convert_all_to_xml_in_folder
     
-    convert_all_to_xml_in_folder(folder_path = new_data_folder)
+    nb_file = convert_all_to_xml_in_folder(list_class , folder_path = new_data_folder)
     prepare_obj_names(output_folder , list_class , model_name)
     prepare_obj_data(output_folder , list_class , model_name)
     
     from prepare_config import prepare_config_file
-    prepare_config_file(model_name , output_file_path = "" ,batch_size = 16 , subdivision= 0 , nb_class = 1 , max_iter = 0 , nb_image = 0 , mosaic = 1 ,verbose = False)
+    output_cfg = output_folder + "/" + model_name + ".cfg"
+    prepare_config_file(model_name , output_file_path = output_cfg ,batch_size = 16 , subdivision= 0 , nb_class = len(list_class) , max_iter = 0 , nb_image = nb_file , mosaic = 1 ,verbose = False)
     
 def prepare_obj_names(output_folder , list_class , model_name) : 
     
