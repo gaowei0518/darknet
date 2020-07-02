@@ -24,8 +24,8 @@ def prepare_config_file(model_name , output_file_path = "" ,batch_size = 16 , su
     new_text = new_text.replace("$SUBDIVISIONS$",str(subdivision))
     new_text = new_text.replace("$ACTIVE_MOSAIC$",str(mosaic))
     new_text = new_text.replace("$MAX_ITERS$",str(max_iter))
-    new_text = new_text.replace("$0.8_ITERS$",str(max_iter90))
-    new_text = new_text.replace("$0.9_ITERS$",str(max_iter80))
+    new_text = new_text.replace("$0.8_ITERS$",str(max_iter80))
+    new_text = new_text.replace("$0.9_ITERS$",str(max_iter90))
     new_text = new_text.replace("$NB_CLASS$",str(nb_class))
     new_text = new_text.replace("$NB_filter$",str(nb_filter))
     
