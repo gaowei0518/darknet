@@ -529,7 +529,7 @@ if __name__ == "__main__":
     config_file = sys.argv[3] #cfg/yolov4_plaque.cfg  
     model_weight = sys.argv[4] # window_backup/yolov4_plaque_final.weights
     image_output = sys.argv[5]  # save the image which contain the bounding box of objet
-    threshold  = sys.argv[6] ### only display the objet which have a proba > threshold 
+    threshold  = float(sys.argv[6]) ### only display the objet which have a proba > threshold 
     print(performDetect(imagePath=image_path , thresh= threshold , configPath = config_file, weightPath = model_weight, metaPath= data_file,output_image = image_output))
     #Uncomment the following line to see batch inference working 
     #print(performBatchDetect())
