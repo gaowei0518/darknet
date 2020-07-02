@@ -526,7 +526,7 @@ def performBatchDetect(thresh= 0.15, configPath = "./cfg/yolov4_window1.cfg", we
 if __name__ == "__main__":
     image_path = sys.argv[1]
     data_file =  sys.argv[2]  #data/plaque_immat.data 
-    config_ifle = sys.argv[3] #cfg/yolov4_plaque.cfg  
+    config_file = sys.argv[3] #cfg/yolov4_plaque.cfg  
     model_weight = sys.argv[4] # window_backup/yolov4_plaque_final.weights
     image_output = sys.argv[5]  # save the image which contain the bounding box of objet
     threshold  = sys.argv[6] ### only display the objet which have a proba > threshold 
