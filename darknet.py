@@ -23,7 +23,7 @@ Directly viewing or returning bounding-boxed images requires scikit-image to be 
 Original *nix 2.7: https://github.com/pjreddie/darknet/blob/0f110834f4e18b30d5f101bf8f1724c34b7b83db/python/darknet.py
 Windows Python 2.7 version: https://github.com/AlexeyAB/darknet/blob/fc496d52bf22a0bb257300d3c79be9cd80e722cb/build/darknet/x64/darknet.py
 
-@author: Philip Kahn
+@author: Philip Kahn (several lines has been modified by gaowei0518)
 @date: 20180503
 """
 #pylint: disable=R, W0401, W0614, W0703
@@ -525,9 +525,9 @@ def performBatchDetect(thresh= 0.15, configPath = "./cfg/yolov4_window1.cfg", we
 
 if __name__ == "__main__":
     image_path = sys.argv[1]
-    data_file =  sys.argv[2]  #data/plaque_immat.data 
-    config_file = sys.argv[3] #cfg/yolov4_plaque.cfg  
-    model_weight = sys.argv[4] # window_backup/yolov4_plaque_final.weights
+    data_file =  sys.argv[2]  #data/model_name.data 
+    config_file = sys.argv[3] #cfg/yolov4_model_name.cfg  
+    model_weight = sys.argv[4] # model_name_backup/yolov4_model_name_final.weights
     image_output = sys.argv[5]  # save the image which contain the bounding box of objet
     threshold  = float(sys.argv[6]) ### only display the objet which have a proba > threshold 
     print(performDetect(imagePath=image_path , thresh= threshold , configPath = config_file, weightPath = model_weight, metaPath= data_file,output_image = image_output))
