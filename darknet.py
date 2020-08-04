@@ -313,7 +313,7 @@ netMain = None
 metaMain = None
 altNames = None
 
-def performDetect(imagePath="data/window/989706618.jpg", thresh= 0.25, configPath = "./cfg/yolov4_window2.cfg", weightPath = "window_backup/yolov4_window2_final.weights", metaPath= "./data/window.data", showImage= True, makeImageOnly = True, initOnly= False,output_image = "test.jpg"):
+def performDetect(list_imagePath=["data/window/989706618.jpg"], thresh= 0.25, configPath = "./cfg/yolov4_window2.cfg", weightPath = "window_backup/yolov4_window2_final.weights", metaPath= "./data/window.data", showImage= True, makeImageOnly = True, initOnly= False,output_image = "test.jpg"):
     """
     Convenience function to handle the detection and returns of objects.
 
@@ -401,62 +401,65 @@ def performDetect(imagePath="data/window/989706618.jpg", thresh= 0.25, configPat
         raise ValueError("Invalid image path `"+os.path.abspath(imagePath)+"`")
     # Do the detection
     #detections = detect(netMain, metaMain, imagePath, thresh)	# if is used cv2.imread(image)
-    detections = detect(netMain, metaMain, imagePath.encode("ascii"), thresh)
-    if showImage:
-        try:
-            from skimage import io, draw
-            import numpy as np
-            image = io.imread(imagePath)
-            print("*** "+str(len(detections))+" Results, color coded by confidence ***")
-            imcaption = []
-            for detection in detections:
-                label = detection[0]
-                confidence = detection[1]
-                pstring = label+": "+str(np.rint(100 * confidence))+"%"
-                imcaption.append(pstring)
-                print(pstring)
-                bounds = detection[2]
-                shape = image.shape
-                # x = shape[1]
-                # xExtent = int(x * bounds[2] / 100)
-                # y = shape[0]
-                # yExtent = int(y * bounds[3] / 100)
-                yExtent = int(bounds[3])
-                xEntent = int(bounds[2])
-                # Coordinates are around the center
-                xCoord = int(bounds[0] - bounds[2]/2)
-                yCoord = int(bounds[1] - bounds[3]/2)
-                boundingBox = [
-                    [xCoord, yCoord],
-                    [xCoord, yCoord + yExtent],
-                    [xCoord + xEntent, yCoord + yExtent],
-                    [xCoord + xEntent, yCoord]
-                ]
-                # Wiggle it around to make a 3px border
-                rr, cc = draw.polygon_perimeter([x[1] for x in boundingBox], [x[0] for x in boundingBox], shape= shape)
-                rr2, cc2 = draw.polygon_perimeter([x[1] + 1 for x in boundingBox], [x[0] for x in boundingBox], shape= shape)
-                rr3, cc3 = draw.polygon_perimeter([x[1] - 1 for x in boundingBox], [x[0] for x in boundingBox], shape= shape)
-                rr4, cc4 = draw.polygon_perimeter([x[1] for x in boundingBox], [x[0] + 1 for x in boundingBox], shape= shape)
-                rr5, cc5 = draw.polygon_perimeter([x[1] for x in boundingBox], [x[0] - 1 for x in boundingBox], shape= shape)
-                boxColor = (int(255 * (1 - (confidence ** 2))), int(255 * (confidence ** 2)), 0)
-                draw.set_color(image, (rr, cc), boxColor, alpha= 0.8)
-                draw.set_color(image, (rr2, cc2), boxColor, alpha= 0.8)
-                draw.set_color(image, (rr3, cc3), boxColor, alpha= 0.8)
-                draw.set_color(image, (rr4, cc4), boxColor, alpha= 0.8)
-                draw.set_color(image, (rr5, cc5), boxColor, alpha= 0.8)
-            if not makeImageOnly:
-                io.imshow(image)
-                io.show()
-            else :
-                io.imsave(output_image,image)
-            detections = {
-                "detections": detections,
-                "image": image,
-                "caption": "\n<br/>".join(imcaption)
-            }
-        except Exception as e:
-            print("Unable to show image: "+str(e))
-    return detections
+    dic_detections = {}
+    for imagePath in list_imagePath : 
+        detections = detect(netMain, metaMain, imagePath.encode("ascii"), thresh)
+        dic_detections[imagePath] = detections
+        if showImage:
+            try:
+                from skimage import io, draw
+                import numpy as np
+                image = io.imread(imagePath)
+                print("*** "+str(len(detections))+" Results, color coded by confidence ***")
+                imcaption = []
+                for detection in detections:
+                    label = detection[0]
+                    confidence = detection[1]
+                    pstring = label+": "+str(np.rint(100 * confidence))+"%"
+                    imcaption.append(pstring)
+                    print(pstring)
+                    bounds = detection[2]
+                    shape = image.shape
+                    # x = shape[1]
+                    # xExtent = int(x * bounds[2] / 100)
+                    # y = shape[0]
+                    # yExtent = int(y * bounds[3] / 100)
+                    yExtent = int(bounds[3])
+                    xEntent = int(bounds[2])
+                    # Coordinates are around the center
+                    xCoord = int(bounds[0] - bounds[2]/2)
+                    yCoord = int(bounds[1] - bounds[3]/2)
+                    boundingBox = [
+                        [xCoord, yCoord],
+                        [xCoord, yCoord + yExtent],
+                        [xCoord + xEntent, yCoord + yExtent],
+                        [xCoord + xEntent, yCoord]
+                    ]
+                    # Wiggle it around to make a 3px border
+                    rr, cc = draw.polygon_perimeter([x[1] for x in boundingBox], [x[0] for x in boundingBox], shape= shape)
+                    rr2, cc2 = draw.polygon_perimeter([x[1] + 1 for x in boundingBox], [x[0] for x in boundingBox], shape= shape)
+                    rr3, cc3 = draw.polygon_perimeter([x[1] - 1 for x in boundingBox], [x[0] for x in boundingBox], shape= shape)
+                    rr4, cc4 = draw.polygon_perimeter([x[1] for x in boundingBox], [x[0] + 1 for x in boundingBox], shape= shape)
+                    rr5, cc5 = draw.polygon_perimeter([x[1] for x in boundingBox], [x[0] - 1 for x in boundingBox], shape= shape)
+                    boxColor = (int(255 * (1 - (confidence ** 2))), int(255 * (confidence ** 2)), 0)
+                    draw.set_color(image, (rr, cc), boxColor, alpha= 0.8)
+                    draw.set_color(image, (rr2, cc2), boxColor, alpha= 0.8)
+                    draw.set_color(image, (rr3, cc3), boxColor, alpha= 0.8)
+                    draw.set_color(image, (rr4, cc4), boxColor, alpha= 0.8)
+                    draw.set_color(image, (rr5, cc5), boxColor, alpha= 0.8)
+                if not makeImageOnly:
+                    io.imshow(image)
+                    io.show()
+                else :
+                    io.imsave(output_image,image)
+                detections = {
+                    "detections": detections,
+                    "image": image,
+                    "caption": "\n<br/>".join(imcaption)
+                }
+            except Exception as e:
+                print("Unable to show image: "+str(e))
+    return dic_detections
 
 def performBatchDetect(thresh= 0.15, configPath = "./cfg/yolov4_window1.cfg", weightPath = "window_backup/yolov4_window1_last.weights", metaPath= "./cfg/window.data", hier_thresh=.5, nms=.45, batch_size=3):
     import cv2
@@ -530,6 +533,6 @@ if __name__ == "__main__":
     model_weight = sys.argv[4] # model_name_backup/yolov4_model_name_final.weights
     image_output = sys.argv[5]  # save the image which contain the bounding box of objet
     threshold  = float(sys.argv[6]) ### only display the objet which have a proba > threshold 
-    print(performDetect(imagePath=image_path , thresh= threshold , configPath = config_file, weightPath = model_weight, metaPath= data_file,output_image = image_output))
+    print(performDetect(list_imagePath=[image_path] , thresh= threshold , configPath = config_file, weightPath = model_weight, metaPath= data_file,output_image = image_output,showImage= False))
     #Uncomment the following line to see batch inference working 
     #print(performBatchDetect())
