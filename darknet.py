@@ -397,12 +397,13 @@ def performDetect(list_imagePath=["data/window/989706618.jpg"], thresh= 0.25, co
     if initOnly:
         print("Initialized detector")
         return None
-    if not os.path.exists(imagePath):
-        raise ValueError("Invalid image path `"+os.path.abspath(imagePath)+"`")
+    
     # Do the detection
     #detections = detect(netMain, metaMain, imagePath, thresh)	# if is used cv2.imread(image)
     dic_detections = {}
     for imagePath in list_imagePath : 
+        if not os.path.exists(imagePath):
+            raise ValueError("Invalid image path `"+os.path.abspath(imagePath)+"`")
         detections = detect(netMain, metaMain, imagePath.encode("ascii"), thresh)
         dic_detections[imagePath] = detections
         if showImage:
